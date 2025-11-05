@@ -1,0 +1,20 @@
+Package: classificationcerrado
+Title: Classification Cerrado
+Version: 0.1
+Authors@R: 
+    person("First", "Last", , "first.last@example.com", role = c("aut", "cre"),
+           comment = c(ORCID = "YOUR-ORCID-ID"))
+Description: Transfer Learning using sits
+License: MIT + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.3
+Imports:
+    dplyr (>= 1.1.0),
+    fs,
+    sf (>= 1.0-19),
+    sits (>= 1.5.3),
+    ntfy,
+    readr,
+    gdalcubes,
+    restoreutils
