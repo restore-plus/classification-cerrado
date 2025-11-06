@@ -6,7 +6,7 @@ library(restoreutils)
 #
 # General definitions
 #
-region_id <- 1
+region_id <- 2
 
 processing_context <- paste0("cerrado:", region_id)
 
@@ -20,10 +20,10 @@ cube_bands <- c("BLUE", "GREEN", "RED", "NIR08", "SWIR16", "SWIR22", "CLOUD")
 regularization_years <- 2018
 
 # Hardware - Multicores
-multicores <- 40
+multicores <- 70
 
 # Hardware - Memory size
-memsize <- 170
+memsize <- 300
 
 
 #
