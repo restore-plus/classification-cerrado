@@ -14,7 +14,7 @@ processing_context <- paste0("cerrado:", region_id)
 cubes_dir <- restoreutils::project_cubes_dir()
 
 # Bands
-cube_bands <- c("BLUE", "GREEN", "RED", "NIR08", "SWIR16", "SWIR22")
+cube_bands <- c("BLUE", "GREEN", "RED", "NIR08", "SWIR16", "SWIR22", "CLOUD")
 
 # Processing years
 regularization_years <- 2018
