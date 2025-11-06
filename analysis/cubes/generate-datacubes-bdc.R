@@ -6,7 +6,7 @@ library(restoreutils)
 #
 # General definitions
 #
-region_id <- 1
+region_id <- 4
 
 processing_context <- paste0("cerrado:", region_id)
 
