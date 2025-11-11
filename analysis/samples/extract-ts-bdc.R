@@ -4,6 +4,7 @@ library(restoreutils)
 #
 # General definitions
 #
+region_id <- 1
 
 # Base datacube directories
 base_cubes_dir <- restoreutils::project_cubes_dir()
@@ -15,7 +16,7 @@ samples_file <- "data/raw/timeseries/simoes_point_cer_2017-08-29_2018-08-29_samp
 base_output_dir <- "data/derived/"
 
 # Samples version
-samples_version <- "samples-simoes-original"
+samples_version <- glue::glue("samples-simoes-original-q{region_id}")
 
 # Reference year
 samples_reference_year <- 2018
