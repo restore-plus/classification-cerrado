@@ -6,11 +6,8 @@ library(restoreutils)
 #
 # General definitions
 #
-<<<<<<< HEAD
 region_id <- 2
-=======
-region_id <- 4
->>>>>>> 47023348bdb9adbab99f16ea31e39b7fd65b8bfc
+
 
 processing_context <- paste0("cerrado:", region_id)
 
@@ -21,11 +18,7 @@ cubes_dir <- restoreutils::project_cubes_dir()
 cube_bands <- c("BLUE", "GREEN", "RED", "NIR08", "SWIR16", "SWIR22", "CLOUD")
 
 # Processing years
-<<<<<<< HEAD
-regularization_years <- c(2020, 2019, 2017, 2016, 2015)
-=======
-regularization_years <- c(2015, 2016, 2017, 2019, 2020, 2021)
->>>>>>> 47023348bdb9adbab99f16ea31e39b7fd65b8bfc
+regularization_years <- c(2018)
 
 # Hardware - Multicores
 multicores <- 70
