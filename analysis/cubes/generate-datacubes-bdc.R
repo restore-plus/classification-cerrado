@@ -17,7 +17,7 @@ cubes_dir <- restoreutils::project_cubes_dir()
 cube_bands <- c("BLUE", "GREEN", "RED", "NIR08", "SWIR16", "SWIR22", "CLOUD")
 
 # Processing years
-regularization_years <- 2018
+regularization_years <- c(2020, 2019, 2017, 2016, 2015)
 
 # Hardware - Multicores
 multicores <- 70
