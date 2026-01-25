@@ -1,0 +1,45 @@
+{
+    "id": "cerrado-segs-tempcnn-v4a",
+    "title": "Cerrado classification with TempCNN, segs and samples v4a",
+    "description": "This experiment trains two TempCNN models (default and tuned) using the v4a samples. Then, we classify the Cerrado region using segments from snic. The goal is test the performance of this approach.",
+    "group": {
+        "id": "2d7255a6-e2fd-4016-845c-501bb9bd4178",
+        "name": "Cerrado",
+        "description": "Classifications for the Cerrado region"
+    },
+    "storage": {
+        "path": "experiments/cerrado-tempcnn-segments/",
+        "provider": "aws"
+    },
+    "settings": {
+        "machines": 4,
+        "priority": "High"
+    },
+    "roi": {
+        "type": "Polygon",
+        "coordinates": [
+            [
+                [
+                    -60.472595633999966,
+                    -24.681606122
+                ],
+                [
+                    -41.277559915,
+                    -24.681606122
+                ],
+                [
+                    -41.277559915,
+                    -2.332088333999958
+                ],
+                [
+                    -60.472595633999966,
+                    -2.332088333999958
+                ],
+                [
+                    -60.472595633999966,
+                    -24.681606122
+                ]
+            ]
+        ]
+    }
+}
