@@ -6,8 +6,7 @@ library(restoreutils)
 #
 # General definitions
 #
-region_id <- 1
-processing_context <- paste0("cerrado:", region_id)
+processing_context <- paste0("cerrado:all-regions")
 
 # Output dir
 cubes_dir <- restoreutils::project_cubes_dir()
@@ -19,18 +18,16 @@ cube_bands <- c("BLUE", "GREEN", "RED", "NIR08", "SWIR16", "SWIR22", "CLOUD")
 regularization_years <- 2015:2022
 
 # Hardware - Multicores
-multicores <- 40
+multicores <- 80
 
 # Hardware - Memory size
-memsize <- 170
+memsize <- 200
 
 
 #
 # 1. Load region
 #
-bdc_tiles <- restoreutils::roi_cerrado_regions(
-  region_id = region_id
-)
+bdc_tiles <- restoreutils::tiles_cerrado_biome()
 
 
 #
