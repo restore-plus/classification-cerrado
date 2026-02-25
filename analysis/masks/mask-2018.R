@@ -15,10 +15,10 @@ base_classifications_dir <- restoreutils::project_classifications_dir()
 mask_tiles <- c()
 
 # Mask - version
-mask_version <- "rules-v1"
+mask_version <- "rules-v2"
 
 # Classification - version
-classification_version <- "samples-cer-v4a-tempcnn-tuning-spacing-10-compactness-05-2018"
+classification_version <- "samples-cer-v4a-tempcnn"
 
 # samples-cer-v4a-tempcnn-default-spacing-10-compactness-05-2018
 # samples-cer-v4a-tempcnn-default-spacing-20-compactness-03-2018
@@ -28,10 +28,10 @@ classification_version <- "samples-cer-v4a-tempcnn-tuning-spacing-10-compactness
 classification_year <- 2018
 
 # Hardware - Multicores
-multicores <- 100
+multicores <- 80
 
 # Hardware - Memory size
-memsize <- 300
+memsize <- 120
 
 #
 # 1. Define output directory
@@ -56,9 +56,11 @@ veg_map <- restoreutils::load_vegmap(
 #
 # 3. Load classification
 #
-eco_class <- load_cerrado_map(
+labels <- restoreutils::labels_cerrado_classification()
+eco_class <- restoreutils::load_restore_mosaic(
   data_dir   = classification_dir,
   tiles      = "MOSAIC",
+  labels     = labels,
   multicores = multicores,
   memsize    = memsize,
   version    = "v1"
@@ -72,6 +74,16 @@ eco_mask <- restoreutils::reclassify_cer_rule0_natveg(
   output_dir   = output_dir,
   version      = "step1"
 )
+
+eco_mask <- restoreutils::reclassify_cer_rule1_veg(
+  cube         = eco_class,
+  mask         = veg_map,
+  multicores   = multicores,
+  memsize      = memsize,
+  output_dir   = output_dir,
+  version      = "step2"
+)
+
 
 #
 # 5. Save cube object
