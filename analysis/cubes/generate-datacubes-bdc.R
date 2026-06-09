@@ -6,7 +6,7 @@ library(restoreutils)
 #
 # General definitions
 #
-region_id <- 1
+region_id <- 2
 processing_context <- paste0("cerrado:", region_id)
 
 # Output dir
@@ -16,13 +16,13 @@ cubes_dir <- restoreutils::project_cubes_dir()
 cube_bands <- c("BLUE", "GREEN", "RED", "NIR08", "SWIR16", "SWIR22", "CLOUD")
 
 # Processing years
-regularization_years <- 2015:2022
+regularization_years <- 2018 #2015:2022
 
 # Hardware - Multicores
-multicores <- 40
+multicores <- 32
 
 # Hardware - Memory size
-memsize <- 170
+memsize <- 128
 
 
 #
@@ -36,12 +36,12 @@ bdc_tiles <- restoreutils::roi_cerrado_regions(
 #
 # 2. Process cubes
 #
-restoreutils::notify(processing_context, "generate cubes > initialized")
+# restoreutils::notify(processing_context, "generate cubes > initialized")
 
 for (regularization_year in regularization_years) {
-  restoreutils::notify(
-    processing_context, paste("generate cubes > processing", regularization_year)
-  )
+  # restoreutils::notify(
+  #   processing_context, paste("generate cubes > processing", regularization_year)
+  # )
 
   # Define cube dir
   cube_year_dir <- restoreutils::create_data_dir(cubes_dir, regularization_year)
@@ -141,7 +141,7 @@ for (regularization_year in regularization_years) {
     )
   })
 
-  restoreutils::notify(
-    processing_context, paste("generate cubes > finalizing", regularization_year)
-  )
+  # restoreutils::notify(
+  #   processing_context, paste("generate cubes > finalizing", regularization_year)
+  # )
 }
