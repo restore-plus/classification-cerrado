@@ -7,22 +7,28 @@ library(restoreutils)
 # General definitions
 #
 base_cubes_dir <- restoreutils::project_cubes_dir()
+base_segmentations_dir <- fs::path("data/derived/segmentations") # restoreutils::project_classifications_dir()
 base_classifications_dir <- restoreutils::project_classifications_dir()
+processing_context <- "coids::rolf::cerrado"
+
 
 # Model
-model_version <- "samples-cer-v4a"
+model_version <- "ltae_cer-v4a"
+
+# Segmentation - version
+segmentation_version <- "hex-s15-c04-p00"
 
 # Classification - version
-classification_version <- "samples-cer-v4a"
+classification_version <- paste0(segmentation_version, "-", model_version)
 
 # Classification - years
-regularization_years <- 2018
+classification_years <- 2018
 
 # Hardware - Multicores
-multicores <- 35
+multicores <- 120
 
 # Hardware - Memory size
-memsize <- 165
+memsize <- 480
 
 
 #
@@ -36,64 +42,76 @@ model <- readRDS(
 #
 # 2. Classify cubes
 #
-for (classification_year in regularization_years) {
-  # Define output directories
-  cube_dir <- restoreutils::create_data_dir(
-    base_cubes_dir, classification_year
-  )
+for (classification_year in classification_years) {
+  # restoreutils::notify(
+  #   processing_context, paste("classify cubes > started >", classification_year, classification_version)
+  # )
 
-  classification_dir <- restoreutils::create_data_dir(
-    base_classifications_dir / classification_version, classification_year
-  )
+  tryCatch({
+    # Define output directories
+    cube_dir <- restoreutils::create_data_dir(
+      base_cubes_dir, classification_year
+    )
+  
+    classification_dir <- restoreutils::create_data_dir(
+      base_classifications_dir / classification_version, classification_year
+    )
+  
+    classification_rds <- classification_dir / "mosaic.rds"
+  
+    # Load segmentation cube
+    segmentation_dir <- base_segmentations_dir / segmentation_version / classification_year
+    segmentation_rds <- segmentation_dir / "segments.rds"
+    cube <- readRDS(segmentation_rds)
+  
+    # Classify cube
+    probs <- sits_classify(
+      data        = cube,
+      ml_model    = model,
+      multicores  = multicores,
+      memsize     = memsize,
+      output_dir  = classification_dir,
+      progress    = TRUE,
+      version     = classification_version
+    )
+  
+    # # Smooth cube
+    # bayes <- sits_smooth(
+    #   cube       = probs,
+    #   multicores = multicores,
+    #   memsize    = memsize,
+    #   output_dir = classification_dir,
+    #   progress   = TRUE,
+    #   version    = classification_version
+    # )
+  
+    # Define classification labels
+    class <- sits_label_classification(
+      cube       = probs,
+      multicores = multicores,
+      memsize    = memsize,
+      output_dir = classification_dir,
+      progress   = TRUE,
+      version    = classification_version
+    )
+  
+    # Mosaic cubes
+    mosaic_cube <- sits_mosaic(
+      cube       = class,
+      multicores = multicores,
+      output_dir = classification_dir,
+      version    = classification_version
+    )
 
-  classification_rds <- classification_dir / "mosaic.rds"
-
-  # Load cube
-  cube <- sits_cube(
-    source     = "BDC",
-    collection = "LANDSAT-OLI-16D",
-    data_dir   = cube_dir
-  )
-
-  # Classify cube
-  probs <- sits_classify(
-    data        = cube,
-    ml_model    = model,
-    multicores  = multicores,
-    memsize     = memsize,
-    output_dir  = classification_dir,
-    progress    = TRUE,
-    version     = classification_version
-  )
-
-  # Smooth cube
-  bayes <- sits_smooth(
-    cube       = probs,
-    multicores = multicores,
-    memsize    = memsize,
-    output_dir = classification_dir,
-    progress   = TRUE,
-    version    = classification_version
-  )
-
-  # Define classification labels
-  class <- sits_label_classification(
-    cube       = bayes,
-    multicores = multicores,
-    memsize    = memsize,
-    output_dir = classification_dir,
-    progress   = TRUE,
-    version    = classification_version
-  )
-
-  # Mosaic cubes
-  mosaic_cube <- sits_mosaic(
-    cube       = class,
-    multicores = multicores,
-    output_dir = classification_dir,
-    version    = classification_version
-  )
-
-  # Save rds
-  saveRDS(mosaic_cube, classification_rds)
+    # Save rds
+    saveRDS(mosaic_cube, classification_rds)
+  }, error = function(e) {
+    message(conditionMessage(e))
+    # restoreutils::notify(
+    #   processing_context, paste("classify cubes > error >", conditionMessage(e))
+    # )
+  })
+  # restoreutils::notify(
+  #   processing_context, paste("classify cubes > finished >", classification_year, classification_version)
+  # )
 }

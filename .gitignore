@@ -11,3 +11,15 @@ data/derived/classifications/
 data/derived/cubes-panel/
 data/derived/mosaics-mbtiles/
 data/derived/mosaics/
+
+# Jupyter/IPython checkpoints
+.ipynb_checkpoints/
+*.ipynb_checkpoints/
+
+# R related
+.Rprofile
+.Rprofile.*
+
+# General
+*.swp
+*~

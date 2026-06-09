@@ -11,10 +11,10 @@ base_segs_dir <- fs::path("data/derived/segments")
 base_classifications_dir <- restoreutils::project_classifications_dir()
 
 # Model
-model_version <- "samples-cer-v4a-tempcnn-default"
+model_version <- "ltae-cer-v4a"
 
 # Segments dir
-segmentation_version <- "spacing-10-compactness-03-2018"
+segmentation_version <- "hex-s15-c04-p00"
 
 # Classification - version
 classification_version <- glue::glue("{model_version}-{segmentation_version}")
@@ -26,7 +26,7 @@ regularization_years <- 2018
 multicores <- 30
 
 # Hardware - Memory size
-memsize <- 96
+memsize <- 120
 
 
 #
@@ -50,7 +50,7 @@ for (classification_year in regularization_years) {
     base_classifications_dir / classification_version, classification_year
   )
 
-  segs_dir <- base_segs_dir / segmentation_version
+  segs_dir <- base_segs_dir / segmentation_version / classification_year
 
   classification_rds <- classification_dir / "mosaic.rds"
 
@@ -73,6 +73,7 @@ for (classification_year in regularization_years) {
         version     = segmentation_version
       )
     }, error = function(e) {
+      stop(e)
       return(NULL)
     })
   })
@@ -90,6 +91,7 @@ for (classification_year in regularization_years) {
         version     = classification_version
       )
     }, error = function(e) {
+      stop(e)
       return(NULL)
     })
   })

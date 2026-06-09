@@ -15,7 +15,7 @@ cubes_dir <- restoreutils::project_cubes_dir()
 cube_bands <- c("BLUE", "GREEN", "RED", "NIR08", "SWIR16", "SWIR22", "CLOUD")
 
 # Processing years
-regularization_years <- 2015:2022
+regularization_years <- 2018 # 2015:2022
 
 # Hardware - Multicores
 multicores <- 80
@@ -33,19 +33,19 @@ bdc_tiles <- restoreutils::tiles_cerrado_biome()
 #
 # 2. Process cubes
 #
-restoreutils::notify(processing_context, "generate cubes > initialized")
+# restoreutils::notify(processing_context, "generate cubes > initialized")
 
 for (regularization_year in regularization_years) {
-  restoreutils::notify(
-    processing_context, paste("generate cubes > processing", regularization_year)
-  )
+  # restoreutils::notify(
+  #   processing_context, paste("generate cubes > processing", regularization_year)
+  # )
 
   # Define cube dir
   cube_year_dir <- restoreutils::create_data_dir(cubes_dir, regularization_year)
 
   # Define cube ``start date`` and ``end date``
   cube_start_date <- paste0(regularization_year, "-01-01")
-  cube_end_date   <- paste0(regularization_year, "-12-31")
+  cube_end_date <- paste0(regularization_year, "-12-31")
 
   # Create cube timeline (P1M)
   cube_timeline <- tibble::tibble(month = 1:12) |>
@@ -59,21 +59,21 @@ for (regularization_year in regularization_years) {
 
   # Loading existing cube
   existing_cube <- tryCatch(
-      {
-        sits_cube(
-           source      = "BDC",
-           collection  = "LANDSAT-OLI-16D",
-           data_dir    = cube_year_dir,
-           progress    = FALSE
-        )
-      },
-      error = function(e) {
-        return(NULL)
-      }
+    {
+      sits_cube(
+        source      = "BDC",
+        collection  = "LANDSAT-OLI-16D",
+        data_dir    = cube_year_dir,
+        progress    = FALSE
+      )
+    },
+    error = function(e) {
+      return(NULL)
+    }
   )
 
   # Inform user about the current number of tiles
-  print(paste0('Total number of tiles: ', nrow(current_year_tiles)))
+  print(paste0("Total number of tiles: ", nrow(current_year_tiles)))
 
   if (!is.null(existing_cube)) {
     # Getting tiles
@@ -83,12 +83,12 @@ for (regularization_year in regularization_years) {
     current_year_tiles <- dplyr::filter(current_year_tiles, !(.data[["tile_id"]] %in% existing_tiles))
 
     # Inform user
-    print(paste0('Existing tiles: ', length(existing_tiles)))
+    print(paste0("Existing tiles: ", length(existing_tiles)))
   }
 
   # Inform user about the current number of tiles to be processed
   # (some can be removed thanks to the existing data)
-  print(paste0('Tiles to process: ', nrow(current_year_tiles)))
+  print(paste0("Tiles to process: ", nrow(current_year_tiles)))
 
   # Regularize tile by tile
   purrr::map(current_year_tiles[["tile_id"]], function(tile) {
@@ -138,7 +138,7 @@ for (regularization_year in regularization_years) {
     )
   })
 
-  restoreutils::notify(
-    processing_context, paste("generate cubes > finalizing", regularization_year)
-  )
+  # restoreutils::notify(
+  #   processing_context, paste("generate cubes > finalizing", regularization_year)
+  # )
 }
