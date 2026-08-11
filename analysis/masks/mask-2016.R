@@ -18,7 +18,7 @@ mask_version <- "rules-v1"
 classification_version <- "v14a"
 
 # Classification - years
-classification_year <- 2018
+classification_year <- 2016
 
 # Hardware - Multicores
 multicores <- 80

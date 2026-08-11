@@ -18,7 +18,7 @@ mask_version <- "rules-v1"
 classification_version <- "v14a"
 
 # Classification - years
-classification_year <- 2018
+classification_year <- 2015
 
 # Hardware - Multicores
 multicores <- 80
@@ -77,13 +77,13 @@ eco_class <- restoreutils::load_restore_mosaic(
 )
 
 eco_mask <- restoreutils::reclassify_cer_rule3_agr_anual(
-  cube         = eco_class,
-  mask         = tc_2018,
-  multicores   = multicores,
-  memsize      = memsize,
-  output_dir   = output_dir,
-  rarg_year    = classification_year,
-  version      = "step1"
+    cube         = eco_class,
+    mask         = tc_2018,
+    multicores   = multicores,
+    memsize      = memsize,
+    output_dir   = output_dir,
+    rarg_year    = classification_year,
+    version      = "step1"
 )
 
 eco_mask <- restoreutils::reclassify_cer_rule4_semi_perene(

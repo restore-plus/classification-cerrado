@@ -18,7 +18,7 @@ mask_version <- "rules-v1"
 classification_version <- "v14a"
 
 # Classification - years
-classification_year <- 2018
+classification_year <- 2023
 
 # Hardware - Multicores
 multicores <- 80
@@ -41,8 +41,8 @@ classification_dir <- (
 # 2. Load base masks
 #
 
-# TerraClass 2018
-tc_2018 <- restoreutils::load_terraclass_cerrado_2018(
+# TerraClass 2022
+tc_2022 <- restoreutils::load_terraclass_cerrado_2022(
   multicores = multicores, memsize = memsize
 )
 
@@ -78,7 +78,7 @@ eco_class <- restoreutils::load_restore_mosaic(
 
 eco_mask <- restoreutils::reclassify_cer_rule3_agr_anual(
   cube         = eco_class,
-  mask         = tc_2018,
+  mask         = tc_2022,
   multicores   = multicores,
   memsize      = memsize,
   output_dir   = output_dir,
@@ -88,7 +88,7 @@ eco_mask <- restoreutils::reclassify_cer_rule3_agr_anual(
 
 eco_mask <- restoreutils::reclassify_cer_rule4_semi_perene(
   cube         = eco_mask,
-  mask         = tc_2018,
+  mask         = tc_2022,
   multicores   = multicores,
   memsize      = memsize,
   output_dir   = output_dir,
@@ -98,7 +98,7 @@ eco_mask <- restoreutils::reclassify_cer_rule4_semi_perene(
 
 eco_mask <- restoreutils::reclassify_cer_rule5_perene(
   cube         = eco_mask,
-  mask         = tc_2018,
+  mask         = tc_2022,
   multicores   = multicores,
   memsize      = memsize,
   output_dir   = output_dir,
@@ -108,7 +108,7 @@ eco_mask <- restoreutils::reclassify_cer_rule5_perene(
 
 eco_mask <- restoreutils::reclassify_cer_rule6_silviculture(
   cube         = eco_mask,
-  mask         = tc_2018,
+  mask         = tc_2022,
   multicores   = multicores,
   memsize      = memsize,
   output_dir   = output_dir,
