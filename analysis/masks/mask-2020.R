@@ -63,7 +63,7 @@ tc_2020 <- restoreutils::load_terraclass_cerrado_2020(
 # Build classification url
 file_url <- restoreutils::aws_build_url_classification_cerrado(
   version = classification_version,
-  year = classification_year
+  year = classification_year - 1
 )
 
 # Download AWS file and convert to sits file name pattern
